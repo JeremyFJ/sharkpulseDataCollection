@@ -1,7 +1,7 @@
 <?php
     //photograph, lat long, email,
     define('__ROOT__', dirname(dirname(__FILE__))); 
-    require_once(__ROOT__.'/testdistro/postgreConfig.php');
+    require_once(__ROOT__.'postgreConfig.php');
     if(getenv('REQUEST_METHOD') == "POST"){
         //echo print_r(array_keys($_POST));
         $headers = getallheaders();
@@ -24,7 +24,7 @@
         $users_information["USERS_EMAIL"] = $_POST['EMAIL'];
         $users_information["NOTES"] = $_POST['NOTES'];
         if($_FILES['PHOTOGRAPH']['name'] && !$_FILES['PHOTOGRAPH']['error']){
-	    $target_dir = __ROOT__."/testdistro/test_uploads/";
+	    $target_dir = __ROOT__."/uploads/";
             $target_file = $target_dir . basename($_FILES["PHOTOGRAPH"]["name"]);
 	    echo "\nTarget dir: ".$target_dir."\n";
 	    echo "Target File: ".$target_file."\n\n";
@@ -41,7 +41,7 @@
        }
         $query_string = "insert into mobile_table (date, time, users_email, species_name,latitude, longitude, img_name, notes, device_type) values ('"
         .$users_information['DATE']."','".$users_information['TIME']."','".$users_information['USERS_EMAIL']."','".$users_information['SHARK_NAME']."','"
-        .$users_information['LATITUDE']."','".$users_information['LONGITUDE']."','/testdistro/test_uploads/$uploaded_file_name','".$users_information['NOTES']."','".$agent."');";
+        .$users_information['LATITUDE']."','".$users_information['LONGITUDE']."','uploads/$uploaded_file_name','".$users_information['NOTES']."','".$agent."');";
 	echo "\n\nQuery String: ". $query_string;
 	$result=pg_query($dbconn, $query_string);
         if($result)
