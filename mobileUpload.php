@@ -1,7 +1,7 @@
 <?php
     //photograph, lat long, email,
     define('__ROOT__', dirname(dirname(__FILE__))); 
-    require_once(__ROOT__.'postgreConfig.php');
+    require_once(__ROOT__.'/postgreConfig.php');
     if(getenv('REQUEST_METHOD') == "POST"){
         //echo print_r(array_keys($_POST));
         $headers = getallheaders();

@@ -19,5 +19,8 @@
     background: #dae5f4;
     font-size: small;
 }
-
+#legend{
+    background: white;
+    padding: 10px;
+}
 html, body, #map-canvas { height:90%; margin: 0; padding: 0;}

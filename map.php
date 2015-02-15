@@ -11,6 +11,7 @@
 
 echo '<body onload="loadScript()">';
 echo '<div id="map-canvas"></div>';
+echo '<div id="legend">Toggle Markers</div>';
 echo '<table class="TFtable">';
 echo '<tr>';
 echo '<th>ID</th><th>Date</th><th>Time</th><th>Species Name</th><th>Longitude</th><th>Latitude</th><th>Notes</th><th>Source</th><th>Image</th>';
@@ -25,5 +26,4 @@ echo '</body>';
         console.log(this.responseText);
     }
 </script>
-
 
