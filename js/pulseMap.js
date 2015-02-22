@@ -18,6 +18,11 @@ function Record(latitude, longitude, speciesInfo, id, date, time, notes, image, 
 
 }
 
+function FlickrMarker(marker, date){
+    this.marker = marker;
+    this.date = date;
+}
+
 function generateContentString(date, speciesInfo, notes, device_info, image){
     var contentString = '<div id=contentString><p><strong>Date: </strong>'+ date+'</p>';
     if(speciesInfo != "") {
@@ -54,7 +59,7 @@ function getFlickerRecords(){
                     map: null,
                     icon: pinImage
                 });
-                allMarkers.push(marker);
+                allMarkers.push(new FlickrMarker(marker, date));
                 var infowindow = new google.maps.InfoWindow({
                     content: contentString
                 });
@@ -75,6 +80,7 @@ function getFlickerRecords(){
     jqxhr.always(function() {
         //alert( "second finished" );
         var checkbox = document.getElementById("flickrCheckBox").addEventListener("click",function(){toggleFlickr(allMarkers)});
+        var range = document.getElementById("date_range").addEventListener('input', function(){updateMap(allMarkers, this.value);}, true);
         return allMarkers;
     });
 
@@ -88,9 +94,18 @@ function initialize() {
     var table = document.getElementsByClassName('TFtable')[0];
     var count = 1;
     var records = [];
+    var flickrRecords = [];
+    var sliding_bar = document.getElementById('sliding_bar');
+    var range = document.getElementById("date_range");
+    var range_output = document.getElementById("dates_output");
+    range_output.style.visibility = "hidden";
+    range.style.visibility = "hidden";
+
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
         document.getElementById('legend'));
+    map.controls[google.maps.ControlPosition.BOTTOM].push(sliding_bar);
+
         var jqxhr = $.get( "getLocationData.php", function() {
         })
             .done(function(data) {
@@ -162,16 +177,64 @@ function initialize() {
             })
             .always(function() {
                 //alert( "finished" );
+                flickrRecords = getFlickerRecords();
+
             });
         jqxhr.always(function() {
-            var flickrRecords = getFlickerRecords();
-
             var legend = document.getElementById('legend');
             var div = document.createElement('div');
-            div.innerHTML = '<img src="img/Farm-Fresh_flickr.png" style="float: right;"><input type="checkbox" name="flickrCheckBox" id="flickrCheckBox">';
+            div.innerHTML = '<img src="../img/Farm-Fresh_flickr.png" style="float: right;"><input type="checkbox" name="flickrCheckBox" id="flickrCheckBox">';
             legend.appendChild(div);
-
         });
+
+}
+function updateMap(flickr, value){
+    var previousValue = document.getElementById("dates_output").value;
+    //console.log("Value: " + previousValue);
+    var range = document.getElementById("date_range");
+    var output = document.getElementById("dates_output");
+
+    output.value = range.value;
+    //console.log("Output Value: " + output.value);
+    //var length_percentage = document.getElementById("dates_output").value / 100;
+    //var length = Math.floor(flickr.length * length_percentage);
+    //
+    ////for(var i = 0; i < length; i++){
+    //    flickr[i].marker.setMap(map);
+    //}
+
+    var difference = output.value - previousValue;
+
+    if(difference < 0){
+        //for(var i = 0;;){
+        //
+        //}
+        //console.log("Went Down");
+        var beginningIndex = Math.floor(flickr.length * (previousValue / 100));
+        var endingIndex = beginningIndex + Math.floor(flickr.length * (difference / 100));
+        //console.log("Beginning index: " + beginningIndex);
+        //console.log("Terminating index: " + endingIndex);
+        if(endingIndex != -1){
+            for(var i = endingIndex; i < beginningIndex; i++){
+                flickr[i].marker.setMap(null);
+            }
+        }else{
+            flickr[0].marker.setMap(null);
+        }
+
+    }
+    else{
+        //console.log("Went up");
+        var beginningIndex = Math.floor(flickr.length * (previousValue / 100));
+        var endingIndex = beginningIndex + Math.floor(flickr.length * (difference / 100));
+        //console.log("Beginning index: " + beginningIndex);
+        //console.log("Terminating index: " + endingIndex);
+        for(var i = beginningIndex; i < endingIndex; i++){
+            flickr[i].marker.setMap(map);
+        }
+    }
+
+
 }
 
 function animateMarker(records, e){
@@ -183,15 +246,23 @@ function stopMarker(records, e){
 
 function toggleFlickr(flickrRecords){
     var x = document.getElementById("flickrCheckBox");
+    var length_percentage = document.getElementById("dates_output").value / 100;
+    var length = Math.floor(flickrRecords.length * length_percentage);
+
     if(x.checked){
-        for(var i = 0; i < flickrRecords.length; i++){
-            flickrRecords[i].setMap(map);
+        for(var i = 0; i < length; i++){
+            flickrRecords[i].marker.setMap(map);
         }
+        document.getElementById('date_range').style.visibility = "visible";
+        document.getElementById("dates_output").style.visibility = "visible";
+
     }
     else{
         for(var i = 0; i < flickrRecords.length; i++){
-            flickrRecords[i].setMap(null);
+            flickrRecords[i].marker.setMap(null);
         }
+        document.getElementById('date_range').style.visibility = "hidden";
+        document.getElementById("dates_output").style.visibility = "hidden";
     }
 }
 

@@ -1,0 +1,16 @@
+# Created by .ignore support plugin (hsz.mobi)
+/.idea
+*.csv
+*.png
+*.jpg
+*.JPG
+*.jpeg
+postgreConfig.php
+random.html
+/js/jquery-csv.js
+/uploads
+/test_uploads
+/mobile_uploads
+/img
+.DS_Store
+.idea/dbnavigator.xml

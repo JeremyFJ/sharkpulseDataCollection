@@ -1,4 +1,4 @@
-<script type="text/javascript" src="pulseMap.js"></script>
+<script type="text/javascript" src="js/pulseMap.js"></script>
 <link rel="stylesheet" type="text/css" href="tableStyles.css">
 <?php
 /**
@@ -12,6 +12,7 @@
 echo '<body onload="loadScript()">';
 echo '<div id="map-canvas"></div>';
 echo '<div id="legend">Toggle Markers</div>';
+echo '<div id="sliding_bar"><input id="date_range" type="range" min="0" max="100" value="10"/><output for="date_range" id="dates_output">10</output></div>';
 echo '<table class="TFtable">';
 echo '<tr>';
 echo '<th>ID</th><th>Date</th><th>Time</th><th>Species Name</th><th>Longitude</th><th>Latitude</th><th>Notes</th><th>Source</th><th>Image</th>';

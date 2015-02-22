@@ -9,7 +9,7 @@
 
 define('__ROOT__', dirname(dirname(__FILE__)));
 require_once(__ROOT__.'/testdistro/postgreConfig.php');
-$sql = "select latitude, longitude, img_url, date, time from data_mining;";
+$sql = "select latitude, longitude, img_url, date, time from data_mining order by date asc;";
 $result = pg_query($dbconn, $sql);
 if (!$result) {
     exit;
