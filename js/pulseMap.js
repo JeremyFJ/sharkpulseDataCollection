@@ -100,6 +100,8 @@ function initialize() {
     var range_output = document.getElementById("dates_output");
     range_output.style.visibility = "hidden";
     range.style.visibility = "hidden";
+    document.getElementById("dates_min").style.visibility = "hidden";
+    document.getElementById("dates_max").style.visibility = "hidden";
 
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
@@ -246,6 +248,9 @@ function stopMarker(records, e){
 
 function toggleFlickr(flickrRecords){
     var x = document.getElementById("flickrCheckBox");
+    var dateMinLabel = document.getElementById("dates_min");
+    var dateMaxLabel = document.getElementById("dates_max");
+
     var length_percentage = document.getElementById("dates_output").value / 100;
     var length = Math.floor(flickrRecords.length * length_percentage);
 
@@ -255,6 +260,10 @@ function toggleFlickr(flickrRecords){
         }
         document.getElementById('date_range').style.visibility = "visible";
         document.getElementById("dates_output").style.visibility = "visible";
+        dateMaxLabel.innerHTML = flickrRecords[flickrRecords.length - 1].date;
+        dateMinLabel.innerHTML = flickrRecords[0].date;
+        dateMinLabel.style.visibility = "visible";
+        dateMaxLabel.style.visibility = "visible";
 
     }
     else{
@@ -263,6 +272,8 @@ function toggleFlickr(flickrRecords){
         }
         document.getElementById('date_range').style.visibility = "hidden";
         document.getElementById("dates_output").style.visibility = "hidden";
+        dateMinLabel.style.visibility = "hidden";
+        dateMaxLabel.style.visibility = "hidden";
     }
 }
 
