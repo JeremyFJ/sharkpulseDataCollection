@@ -259,7 +259,7 @@ function toggleFlickr(flickrRecords){
             flickrRecords[i].marker.setMap(map);
         }
         document.getElementById('date_range').style.visibility = "visible";
-        document.getElementById("dates_output").style.visibility = "visible";
+        document.getElementById("dates_output").style.visibility = "hidden";
         dateMaxLabel.innerHTML = flickrRecords[flickrRecords.length - 1].date;
         dateMinLabel.innerHTML = flickrRecords[0].date;
         dateMinLabel.style.visibility = "visible";

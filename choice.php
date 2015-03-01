@@ -27,7 +27,7 @@
                 echo "Sql: $sql\n";
                 $result = pg_query($dbconn, $sql);
                 if (!$result) {
-                    $errormessage = pg_errormessage($db);
+                    $errormessage = pg_errormessage($dbconn);
                     echo $errormessage;
                     exit();
                 }
