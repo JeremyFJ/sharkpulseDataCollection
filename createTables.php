@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" type="text/css" href="tableStyles.css">
+<link rel="stylesheet" type="text/css" href="css/tableStyles.css">
 <?php
 /**
  * Created by PhpStorm.

@@ -23,18 +23,29 @@ function FlickrMarker(marker, date){
     this.date = date;
 }
 
-function generateContentString(date, speciesInfo, notes, device_info, image){
+function generateContentString(date, speciesInfo, notes, device_info, image, table, id){
     var contentString = '<div id=contentString><p><strong>Date: </strong>'+ date+'</p>';
     if(speciesInfo != "") {
         contentString = contentString.concat('<p><strong>Species Info:</strong> '+speciesInfo+'</p>');
     }
     if(notes != ""){
-        contentString.concat('<p><strong>Notes: </strong>'+notes+'</p');
+        contentString.concat('<p><strong>Notes: </strong>'+notes+'</p>');
     }
     if(device_info != ""){
         contentString.concat('<p><strong>Source: </strong>' + device_info + '</p>');
     }
-    contentString = contentString.concat('<img src="'+image+'" width="150px"></div>');
+     contentString = contentString.concat("<a href='/information.php?table=" + table +"&id=" + id + "'>" +
+    "<img src=\""+image+"\" width=\"150px\"></a></div>");
+    if(table == "data_mining"){
+    contentString = contentString.concat("<form action=\"\"method='POST'>" +
+    "Is this a real shark (no shark in aquaria)? <br><label for=\"radio_"+table+"_"+id+"_yes\">Yes</label>" +
+    "<input type=\"radio\" name=\"radio_"+table+"_"+id+"\" value=\"yes\" id=\"radio_"+table+"_"+id+"_yes\">" +
+    "<label for=\"radio_"+table+"_"+id+"_no\">No</label>" +
+    "<input type=\"radio\" name=\"radio_"+table+"_"+id+"\" value=\"no\" id=\"radio_"+table+"_"+id+"_no\"><br>" +
+    "What species?<input type=\"text\" name=\"species\">" +
+    "<input type=\"submit\" value=\"Submit\"><br></form>");
+    }
+    
     return contentString;
 }
 
@@ -51,8 +62,9 @@ function getFlickerRecords(){
                 var imgURL = structure[obj]['img_url'];
                 var date = structure[obj]['date'];
                 var time = structure[obj]['time'];
+                var id = structure[obj]['id'];
 
-                var contentString = generateContentString(date, "","","",imgURL);
+                var contentString = generateContentString(date, "","","",imgURL, "data_mining", id);
 
                 var marker = new google.maps.Marker({
                     position: new google.maps.LatLng(latitude, longitude),
@@ -98,10 +110,15 @@ function initialize() {
     var sliding_bar = document.getElementById('sliding_bar');
     var range = document.getElementById("date_range");
     var range_output = document.getElementById("dates_output");
+    var date_label = document.getElementById("date");
+    date_label.style.visibility = "hidden";
     range_output.style.visibility = "hidden";
     range.style.visibility = "hidden";
     document.getElementById("dates_min").style.visibility = "hidden";
     document.getElementById("dates_max").style.visibility = "hidden";
+    var output_div = document.getElementById("output_div");
+    output_div.style.display = "flex";
+    output_div.style.justifyContent = "center";
 
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
@@ -130,7 +147,7 @@ function initialize() {
                         title: speciesInfo
                     });
 
-                    var contentString = generateContentString(date, speciesInfo, notes, device_info,image);
+                    var contentString = generateContentString(date, speciesInfo, notes, device_info,image, "sharkpulse", id);
                     var infowindow = new google.maps.InfoWindow({
                         content: contentString
                     });
@@ -165,7 +182,7 @@ function initialize() {
                     latitudeCol.innerHTML = latitude;
                     notesCol.innerHTML = notes;
                     sourceCol.innerHTML = device_info;
-                    imageCol.innerHTML = "<img src='/~edsan"+image+"' width='100px'>";
+                    imageCol.innerHTML = "<img src='"+image+"' width='100px'>";
                     count++;
 
                     var record = new Record(latitude,longitude,speciesInfo,id,date,time,notes,image,device_info,marker,infowindow,row);
@@ -192,34 +209,24 @@ function initialize() {
 }
 function updateMap(flickr, value){
     var previousValue = document.getElementById("dates_output").value;
-    //console.log("Value: " + previousValue);
+    var dateLabel = document.getElementById("date");
+
     var range = document.getElementById("date_range");
     var output = document.getElementById("dates_output");
 
     output.value = range.value;
-    //console.log("Output Value: " + output.value);
-    //var length_percentage = document.getElementById("dates_output").value / 100;
-    //var length = Math.floor(flickr.length * length_percentage);
-    //
-    ////for(var i = 0; i < length; i++){
-    //    flickr[i].marker.setMap(map);
-    //}
 
     var difference = output.value - previousValue;
 
     if(difference < 0){
-        //for(var i = 0;;){
-        //
-        //}
-        //console.log("Went Down");
         var beginningIndex = Math.floor(flickr.length * (previousValue / 100));
         var endingIndex = beginningIndex + Math.floor(flickr.length * (difference / 100));
-        //console.log("Beginning index: " + beginningIndex);
-        //console.log("Terminating index: " + endingIndex);
         if(endingIndex != -1){
             for(var i = endingIndex; i < beginningIndex; i++){
                 flickr[i].marker.setMap(null);
+
             }
+            dateLabel.value = flickr[endingIndex].date;
         }else{
             flickr[0].marker.setMap(null);
         }
@@ -229,10 +236,9 @@ function updateMap(flickr, value){
         //console.log("Went up");
         var beginningIndex = Math.floor(flickr.length * (previousValue / 100));
         var endingIndex = beginningIndex + Math.floor(flickr.length * (difference / 100));
-        //console.log("Beginning index: " + beginningIndex);
-        //console.log("Terminating index: " + endingIndex);
         for(var i = beginningIndex; i < endingIndex; i++){
             flickr[i].marker.setMap(map);
+            dateLabel.value = flickr[i].date;
         }
     }
 
@@ -250,6 +256,7 @@ function toggleFlickr(flickrRecords){
     var x = document.getElementById("flickrCheckBox");
     var dateMinLabel = document.getElementById("dates_min");
     var dateMaxLabel = document.getElementById("dates_max");
+    var dateLabel = document.getElementById("date");
 
     var length_percentage = document.getElementById("dates_output").value / 100;
     var length = Math.floor(flickrRecords.length * length_percentage);
@@ -257,6 +264,7 @@ function toggleFlickr(flickrRecords){
     if(x.checked){
         for(var i = 0; i < length; i++){
             flickrRecords[i].marker.setMap(map);
+
         }
         document.getElementById('date_range').style.visibility = "visible";
         document.getElementById("dates_output").style.visibility = "hidden";
@@ -264,6 +272,7 @@ function toggleFlickr(flickrRecords){
         dateMinLabel.innerHTML = flickrRecords[0].date;
         dateMinLabel.style.visibility = "visible";
         dateMaxLabel.style.visibility = "visible";
+        dateLabel.style.visibility = "visible";
 
     }
     else{
@@ -274,23 +283,22 @@ function toggleFlickr(flickrRecords){
         document.getElementById("dates_output").style.visibility = "hidden";
         dateMinLabel.style.visibility = "hidden";
         dateMaxLabel.style.visibility = "hidden";
+        dateLabel.style.visibility = "hidden";
     }
 }
 
 function loadScript() {
     var script = document.createElement('script');
     script.type = 'text/javascript';
+    script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js';
+    document.body.appendChild(script);
+    script = document.createElement('script');
+    script.type = 'text/javascript';
     script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
     'callback=initialize';
     document.body.appendChild(script);
-    script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js';
-    document.body.appendChild(script);
-    script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src= 'js/jquery-csv.js';
-    document.body.appendChild(script);
+
+
 }
 
 

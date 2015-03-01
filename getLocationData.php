@@ -5,14 +5,11 @@
  * Date: 12/10/14
  * Time: 7:52 PM
  */
-
-   
-    define('__ROOT__', dirname(dirname(__FILE__)));
-    require_once(__ROOT__.'/testdistro/postgreConfig.php');
-    $sql = "SELECT id, date, time, users_email, species_name, latitude, longitude, img_name, notes, device_type FROM sharkpulse order by date asc";
+    require_once('postgreConfig.php');
+    $sql = "SELECT id, date, time, users_email, species_name, latitude, longitude, img_name, notes, device_type FROM sharkpulse";
     $result = pg_query($dbconn, $sql);
     if (!$result) {
-  	exit;
+	exit;
     }
     $data = array();
     $i = 1;

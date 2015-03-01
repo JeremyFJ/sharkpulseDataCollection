@@ -5,48 +5,33 @@
 * Date: 2/22/15
 * Time: 12:44 PM
 */
+require('wp-blog-header.php');
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <script type="text/javascript" src="js/informationMap.js"></script>
-        <style type="text/css">
-            html { height: 100% }
-            body { height: 100%; margin: auto; padding: 0; width:800px; }
-            #map-canvas { height:300px;
-                width: 300px; }
-            img{
-                width: 300px;
-            }
-            #container{
-                display: flex;
-
-            }
-        </style>
-
-    </head>
+    
+<?php get_header(); ?>
+  <div id="menu">
+   <ul>
+   <?php wp_list_pages('exclude=271&sort_column=menu_order&title_li='); ?> 
+    </ul>
+  </div>
     <body onload="loadScript()">
-        <div id="wrapper">
             <?php
 
-                define('__ROOT__', dirname(dirname(__FILE__)));
-                require_once(__ROOT__.'/testdistro/postgreConfig.php');
+                require_once('postgreConfig.php');
                 if ($_SERVER['QUERY_STRING'] == "")
                 {
-//                    echo "The query string is empty\n";
-//                    exit(1);
+                    exit(1);
                 }
                 if (isset($_REQUEST['table']) && isset($_REQUEST['id'])) {
                 // param was set in the query string
                     if (empty($_REQUEST['table']) || empty($_REQUEST['id'])) {
-                        // query string had param set to nothing ie ?param=&param2=something
-//                        echo "Query parameters are empty\n";
-//                        exit(1);
+                        exit(1);
                     } else {
                         $table = $_GET['table'];
                         $id = $_GET['id'];
-                        $sql = "SELECT date, time, users_email, species_name, latitude, longitude, img_name, notes, device_type ".
+                        $sql = "SELECT date, time, users_email, species_name, latitude, longitude, img_name, notes ".
                             "FROM $table where id=$id";
                         $result = pg_query($dbconn, $sql);
                         if (!$result) {
@@ -65,30 +50,28 @@
                             $longitude = $row[5];
                             $image = $row[6];
                             $notes = $row[7];
-                            $deviceType = $row[8];
-                            echo "<div id=\"information_header\">";
-                            echo "<h1><span id='species_name'>$species_name</span>observed by $users_email on $date</h1></div><div id=\"container\">";
-                            echo "<div id=\"location_information\"><div id=\"map-canvas\"></div>";
+                            //$deviceType = $row[8];
+			    echo "<div id=\"contain\">";
+                            //echo "<div id=\"information_header\">
+                           // echo "<h1><span id='species_name'>$species_name</span> observed by $users_email on $date</h1>";
+                            echo "<div id=\"location_information\">";
+		            echo "<h1><span id='species_name'>$species_name</span></h1><img src=\"$image\"><div id=\"map-canvas-info\"></div>";
                             echo "<div id=\"location_description\">";
-                            echo "<ul>";
-                            echo "<li id=\"location\">Location: </li>";
-                            echo "<li id=\"places\">Places: </li>";
-                            echo "<li>Latitude: <span id=\"latitude\">$latitude</span></li>";
-                            echo "<li>Longitude: <span id=\"longitude\">$longitude</span></li>";
-                            echo "</ul>";
-                            echo "</div></div>";
-                            echo "<div id=\"media_information\"><img src=\"/~edsan$image\"></div></div>";
+                            //echo "<li id=\"location\">Location: </li>";
+                            //echo "<li id=\"places\">Places: </li>";
+                            echo "<p>Latitude: <span id=\"latitude\">$latitude</span></p>";
+                            echo "<p>Longitude: <span id=\"longitude\">$longitude</span></p>";
+			    echo "<p>Date: <span id=\"date\">$date</span></p>";
+                            echo "</div>";
+                            echo "</div>";
+			   get_sidebar();
 
                         }
                         pg_close();
                     }
                 }
-
-
-
             ?>
-
-
         </div>
+      <script type="text/javascript" src="js/informationMap.js"></script>
     </body>
 </html>

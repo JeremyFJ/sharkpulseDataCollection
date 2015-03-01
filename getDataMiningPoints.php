@@ -7,9 +7,8 @@
  */
 
 
-define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__.'/testdistro/postgreConfig.php');
-$sql = "select latitude, longitude, img_url, date, time from data_mining order by date asc;";
+require_once('postgreConfig.php');
+$sql = "select latitude, longitude, img_name, date, time, id from data_mining order by date asc;";
 $result = pg_query($dbconn, $sql);
 if (!$result) {
     exit;
@@ -25,6 +24,7 @@ while($row = pg_fetch_row($result)) {
     $record['img_url'] = $row[2];
     $record['date'] = $row[3];
     $record['time'] = $row[4];
+    $record['id'] = $row[5];
     array_push($data, $record);
 //    $data["".$i] = $record;
 //    $i +=1;
