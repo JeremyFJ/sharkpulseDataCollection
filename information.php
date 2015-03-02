@@ -5,15 +5,15 @@
 * Date: 2/22/15
 * Time: 12:44 PM
 */
-require('wp-blog-header.php');
+//require('wp-blog-header.php');
 ?>
 <!DOCTYPE html>
 <html>
     
-<?php get_header(); ?>
+<?php /*get_header();*/ ?>
   <div id="menu">
    <ul>
-   <?php wp_list_pages('exclude=271&sort_column=menu_order&title_li='); ?> 
+   <?php/* wp_list_pages('exclude=271&sort_column=menu_order&title_li='); */?>
     </ul>
   </div>
     <body onload="loadScript()">
@@ -64,7 +64,7 @@ require('wp-blog-header.php');
 			    echo "<p>Date: <span id=\"date\">$date</span></p>";
                             echo "</div>";
                             echo "</div>";
-			   get_sidebar();
+			   //get_sidebar();
 
                         }
                         pg_close();
