@@ -6,7 +6,7 @@
  * Time: 4:48 PM
  */
     define('__ROOT__', dirname(dirname(__FILE__)));
-    require_once(__ROOT__.'/testdistro/postgreConfig.php');
+    require_once(__ROOT__.'/baseline2/postgreConfig.php');
     if ($_SERVER['QUERY_STRING'] == "")
     {
         echo "The query string is empty\n";
@@ -27,7 +27,7 @@
                 echo "Sql: $sql\n";
                 $result = pg_query($dbconn, $sql);
                 if (!$result) {
-                    $errormessage = pg_errormessage($dbconn);
+                    $errormessage = pg_errormessage($db);
                     echo $errormessage;
                     exit();
                 }
@@ -58,6 +58,7 @@
                     exit();
                 }
                 $sql = "delete from $table where id = $id;";
+		echo $sql;
                 $result = pg_query($dbconn, $sql);
                 if (!$result) {
                     $errormessage = pg_errormessage($db);
@@ -66,7 +67,7 @@
                 }
                 pg_close();
             }
-            header("Location: http://localhost/~edsan/testdistro/createTables.php");
+            header("Location: http://baseline2.stanford.edu/createTables.php");
             die();
 }
     }else{

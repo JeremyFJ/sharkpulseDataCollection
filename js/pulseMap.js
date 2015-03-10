@@ -26,7 +26,7 @@ function FlickrMarker(marker, date){
 function generateContentString(date, speciesInfo, notes, device_info, image, table, id){
     var contentString = '<div id=contentString><p><strong>Date: </strong>'+ date+'</p>';
     if(speciesInfo != "") {
-        contentString = contentString.concat('<p><strong>Species Info:</strong> '+speciesInfo+'</p>');
+        contentString = contentString.concat('<p><strong>Species Info: </strong><span style="font-style: italic;">'+speciesInfo+'</span></p>');
     }
     if(notes != ""){
         contentString.concat('<p><strong>Notes: </strong>'+notes+'</p>');
@@ -34,10 +34,10 @@ function generateContentString(date, speciesInfo, notes, device_info, image, tab
     if(device_info != ""){
         contentString.concat('<p><strong>Source: </strong>' + device_info + '</p>');
     }
-     contentString = contentString.concat("<a href='/information.php?table=" + table +"&id=" + id + "'>" +
-    "<img src=\""+image+"\" width=\"150px\"></a></div>");
+     contentString = contentString.concat("<a href='information.php?table=" + table +"&id=" + id + "'>" +
+    "<img src="+image+" width=\"150px\"></a></div>");
     if(table == "data_mining"){
-    contentString = contentString.concat("<form action=\"\"method='POST'>" +
+    contentString = contentString.concat("<form action=\"flickr_form.php?table="+table+"&id="+id+"\" method='POST'>" +
     "Is this a real shark (no shark in aquaria)? <br><label for=\"radio_"+table+"_"+id+"_yes\">Yes</label>" +
     "<input type=\"radio\" name=\"radio_"+table+"_"+id+"\" value=\"yes\" id=\"radio_"+table+"_"+id+"_yes\">" +
     "<label for=\"radio_"+table+"_"+id+"_no\">No</label>" +
@@ -177,7 +177,7 @@ function initialize() {
                     idCol.innerHTML = id;
                     dateCol.innerHTML = date;
                     timeCol.innerHTML = time;
-                    speciesCol.innerHTML = speciesInfo;
+                    speciesCol.innerHTML = "<span id='species_info' style='font-style: italic;'>" + speciesInfo + "</span>";
                     longitudeCol.innerHTML = longitude;
                     latitudeCol.innerHTML = latitude;
                     notesCol.innerHTML = notes;
@@ -297,8 +297,6 @@ function loadScript() {
     script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
     'callback=initialize';
     document.body.appendChild(script);
-
-
 }
 
 

@@ -1,3 +1,4 @@
+
 .TFtable{
     width:100%;
     border-collapse:collapse;
@@ -19,8 +20,25 @@
     background: #dae5f4;
     font-size: small;
 }
-#legend{
-    background: white;
-    padding: 10px;
+
+html, body { 
+    height:100%; margin: 0; padding: 0;
+    flex-flow:column;
 }
-html, body, #map-canvas { height:90%; margin: 0; padding: 0;}
+body{
+    display:flex;
+}
+#tableDiv{
+    flex:1;
+    min-height:0;
+    height:400px;
+    overflow:auto;
+}
+
+#map-canvas{
+    height: 350px;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    
+}

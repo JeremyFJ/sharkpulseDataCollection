@@ -1,7 +1,7 @@
 <?php
     //photograph, lat long, email,
-    define('__ROOT__', dirname(dirname(__FILE__))); 
-    require_once(__ROOT__.'/postgreConfig.php');
+    define('__ROOT__', dirname(dirname(__FILE__)));
+    require_once('postgreConfig.php');
     if(getenv('REQUEST_METHOD') == "POST"){
         //echo print_r(array_keys($_POST));
         $headers = getallheaders();
@@ -24,7 +24,7 @@
         $users_information["USERS_EMAIL"] = $_POST['EMAIL'];
         $users_information["NOTES"] = $_POST['NOTES'];
         if($_FILES['PHOTOGRAPH']['name'] && !$_FILES['PHOTOGRAPH']['error']){
-	    $target_dir = __ROOT__."/uploads/";
+	    $target_dir = __ROOT__."/baseline2/uploads/";
             $target_file = $target_dir . basename($_FILES["PHOTOGRAPH"]["name"]);
 	    echo "\nTarget dir: ".$target_dir."\n";
 	    echo "Target File: ".$target_file."\n\n";

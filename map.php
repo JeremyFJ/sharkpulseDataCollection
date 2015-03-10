@@ -1,4 +1,13 @@
-<?php /*require('wp-blog-header.php');*/?>
+<?php
+/**
+ * Created by PhpStorm.
+ * User: edsan
+ * Date: 2/22/15
+ * Time: 12:44 PM
+ * require('wp-blog-header.php');
+ */
+
+?>
 <!DOCTYPE html>
 <html>
     <head>

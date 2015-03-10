@@ -1,0 +1,40 @@
+#contain{
+display:flex;
+flex-direction:row;
+flex-wrap:wrap;
+}
+#location_information{
+	margin:0px;
+	padding: 5px;
+	margin-top:10px;
+}
+#map-canvas-info{
+	 height:250px;
+         width: 300px; 
+	padding:5px;
+}
+#location_information > img{
+width:300px;
+padding:5px;
+}
+#contain > ul{
+	margin:auto;
+	padding: 5px;
+	list-style-type: none;
+	align-self: flex-start;
+	color:#2a67bb;
+	text-transform: capitalize;
+	font: "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+#location_information > h1{
+	padding: 15px;
+	width: 410px;
+	color:#2a67bb;
+	/*text-transform: capitalize;*/
+	font:26px/26px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	margin:0px;
+	
+}
+#species_name{
+font-style: italic;
+}

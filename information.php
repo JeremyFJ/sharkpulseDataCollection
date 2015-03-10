@@ -4,18 +4,17 @@
 * User: edsan
 * Date: 2/22/15
 * Time: 12:44 PM
+ * require('wp-blog-header.php');
 */
-//require('wp-blog-header.php');
+
 ?>
 <!DOCTYPE html>
 <html>
-    
-<?php /*get_header();*/ ?>
-  <div id="menu">
-   <ul>
-   <?php/* wp_list_pages('exclude=271&sort_column=menu_order&title_li='); */?>
-    </ul>
-  </div>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/infoStyle.css">
+    <script type="text/javascript" src="js/informationMap.js"></script>
+
+  </head>
     <body onload="loadScript()">
             <?php
 
@@ -55,7 +54,14 @@
                             //echo "<div id=\"information_header\">
                            // echo "<h1><span id='species_name'>$species_name</span> observed by $users_email on $date</h1>";
                             echo "<div id=\"location_information\">";
-		            echo "<h1><span id='species_name'>$species_name</span></h1><img src=\"$image\"><div id=\"map-canvas-info\"></div>";
+		            echo "<h1><span id='species_name'>$species_name</span></h1>";
+			    if($table == "sharkpulse"){
+
+                            echo "<img src=\"$image\">";}
+			   else{
+				echo "<img src=$image>";
+				}
+			    echo "<div id=\"map-canvas-info\"></div>";
                             echo "<div id=\"location_description\">";
                             //echo "<li id=\"location\">Location: </li>";
                             //echo "<li id=\"places\">Places: </li>";
@@ -72,6 +78,5 @@
                 }
             ?>
         </div>
-      <script type="text/javascript" src="js/informationMap.js"></script>
     </body>
 </html>

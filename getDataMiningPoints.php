@@ -7,8 +7,9 @@
  */
 
 
+//define('__ROOT__', dirname(dirname(__FILE__)));
 require_once('postgreConfig.php');
-$sql = "select latitude, longitude, img_name, date, time, id from data_mining order by date asc;";
+$sql = "select latitude, longitude, img_name, date, time, id from data_mining WHERE validated=false order by date asc;";
 $result = pg_query($dbconn, $sql);
 if (!$result) {
     exit;
