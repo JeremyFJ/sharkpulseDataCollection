@@ -14,3 +14,4 @@ random.html
 /img
 .DS_Store
 .idea/dbnavigator.xml
+pdopostgreconfig.php
