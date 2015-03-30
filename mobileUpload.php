@@ -55,7 +55,7 @@
                     </head>
                     <body>
                         <h1>Pulse Information</h1>
-                    <img src='http://baseline2.stanford.edu/testdistro/test_uploads/$uploaded_file_name'>
+                    <img src='http://baseline2.stanford.edu/uploads/$uploaded_file_name'>
                             <h2>Species guessed: ".$users_information['SHARK_NAME']."</h2>
                             <h2>Latitude: ".$users_information['LATITUDE']."</h2>
                             <h2>Longitude: ".$users_information['LONGITUDE']."</h2>

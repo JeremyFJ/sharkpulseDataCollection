@@ -13,5 +13,6 @@ random.html
 /mobile_uploads
 /img
 .DS_Store
-.idea/dbnavigator.xml
+.idea/
 pdopostgreconfig.php
+py/.idea/*
