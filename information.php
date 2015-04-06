@@ -66,6 +66,18 @@ if (isset($_REQUEST['table']) && isset($_REQUEST['id'])) {
                     <p>Longitude: <span id="longitude"><?=$longitude?></span></p>
                     <p>Date: <span id="date"><?=$date?></span></p>
                 </div>
+                <?php
+                    if($table=='data_mining'){
+                        echo "<form action='flickrForm.php?table=data_mining&id=$id' method='POST'> Is this a real shark (no shark in aquaria)? <br>
+                            <label for='radio_data_mining_".$id."_yes'>Yes</label>
+                            <input type='radio' name='radio_data_mining_".$id."' value='yes' id='radio_data_mining_".$id."_yes'>
+                            <label for='radio_data_mining_".$id."_no'>No</label>
+                            <input type='radio' name='radio_data_mining_".$id."' value='no' id='radio_data_mining_".$id."_no'><br>
+                            <input type='hidden' value='$id'>
+                            What species?<input type='text' name='species'>
+                            <input type='submit' value='Submit' id='submit_button'><br>
+                        </form>";
+                    }?>
             </div>
         </div>
     </body>

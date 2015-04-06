@@ -37,7 +37,7 @@ function generateContentString(date, speciesInfo, notes, device_info, image, tab
      contentString = contentString.concat("<a href='information.php?table=" + table +"&id=" + id + "'>" +
     "<img src="+image+" width=\"150px\"></a></div>");
     if(table == "data_mining"){
-    contentString = contentString.concat("<form action=\"flickr_form.php?table="+table+"&id="+id+"\" method='POST'>" +
+    contentString = contentString.concat("<form action=\"flickrForm.php?table="+table+"&id="+id+"\" method='POST'>" +
     "Is this a real shark (no shark in aquaria)? <br><label for=\"radio_"+table+"_"+id+"_yes\">Yes</label>" +
     "<input type=\"radio\" name=\"radio_"+table+"_"+id+"\" value=\"yes\" id=\"radio_"+table+"_"+id+"_yes\">" +
     "<label for=\"radio_"+table+"_"+id+"_no\">No</label>" +
