@@ -20,7 +20,9 @@
     background: #dae5f4;
     font-size: small;
 }
-
+/*.TFtable tr:hover {*/
+    /*background-color: #ffff99;*/
+/*}*/
 html, body { 
     height:100%; margin: 0; padding: 0;
     flex-flow:column;
@@ -38,11 +40,20 @@ body{
     background-color: azure;
     padding: 5px;
     margin: 3px;
+    border-radius: 5px;
+    color: white;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 }
 #map-canvas{
     height: 350px;
     margin: 0;
     padding: 0;
     position: fixed;
-    
+}
+#sliding_bar{
+    padding: 10px;
+    border-radius: 5px;
+    background-color: azure;
+    color: white;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 }

@@ -22,7 +22,7 @@ function initialize() {
 
             }
         } else {
-            alert("Geocoder failed due to: " + status);
+           // alert("Geocoder failed due to: " + status);
         }
     });
 }

@@ -28,7 +28,13 @@ function fillDropdownMenu(value){
             success: function(json){
                 //console.log(json);
                 $.each($.parseJSON(json), function (index, val) {
-                    $("#species_select").append("<option value='"+val.tsn+"'>"+val.species_name+"</option>")
+                    if(val.species_name != undefined){
+                        $("#species_select").append("<option value='"+val.tsn+"'>"+val.species_name+"</option>")
+                    }
+                    else{
+                        $("#species_select").append("<option value='"+val.tsn+"'>unknown</option>")
+                    }
+
                 });
             },
             error: function (xhr, status, errorThrown) {

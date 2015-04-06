@@ -109,7 +109,15 @@ function getDistinctTSN(){
 }
 function getRecordsFromTSN($tsn){
     $dbconn = getConnection("pelagic");
-    $sql = "select id, species_name, date, time, latitude, longitude, img_name from sharkpulse where tsn=$tsn;";
+    $sql = "select id, species_name, date, time, latitude, longitude, img_name from sharkpulse where tsn=$tsn order by date DESC ;";
+    $stmt = $dbconn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+function getDataMiningPoints(){
+    $dbconn = getConnection("pelagic");
+    $sql = "select latitude, longitude, img_name, date, time, id from data_mining WHERE validated=false order by date asc;";
     $stmt = $dbconn->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -129,13 +137,19 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                 $species[] = getVernacularName($tsn['tsn'])[0];
             }
 
+
         }
+        //sort($species);
         $species = json_encode($species);
         echo $species;
     }elseif(isset($_GET['tsn'])){
         $tsn = $_GET['tsn'];
 
         echo json_encode(getRecordsFromTSN($tsn));
+    }elseif(isset($_GET['validate'])){
+        $records = getDataMiningPoints();
+        $records = json_encode($records);
+        echo $records;
     }
     else{
         findUnknownTSN();

@@ -9,14 +9,15 @@
 <body>
 
     <div id="map-canvas"></div>
-<!--    <div id="legend">Toggle Markers</div>-->
+<!--    <div id="legend">Toggle Markers</div>
     <div id="sliding_bar">
         <div id="output_div"><output for="date_range" id="date"></output></div>
         <ouput for="date_range" id="dates_min"></ouput>
         <input id="date_range" type="range" min="0" max="100" value="10"/>
         <ouput for="date_range" id="dates_max"></ouput>
         <output for="date_range" id="dates_output"></output>
-    </div>
+    </div
+    -->
     <div id="species_box">
         <label for="sn_dropbox_radio">Scientific Name</label> <input type="radio" value="Scientific Name" name="dropbox_radio" id="sn_dropbox_radio" checked>
         <label for="cn_dropbox_radio">Common Name</label><input type="radio" value="Common Name" name="dropbox_radio" id="cn_dropbox_radio"><br>
