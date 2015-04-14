@@ -46,9 +46,6 @@ if(getenv('REQUEST_METHOD') == "POST") {
         }
     }
     $referer = $_SERVER['HTTP_REFERER'];
-//    $arr = explode("?", $referer, 2);
-//    $first = $arr[0];
-//    echo "$first";
-    header("Location: $referer");
+    header("Location: validationmonitor.php");
 }
 ?>

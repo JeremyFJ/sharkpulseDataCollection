@@ -9,8 +9,15 @@
 require_once('pdopostgreconfig.php');
 function getData($table, $id){
     $dbconn = getConnection("pelagic");
-    $sql = "SELECT date, time, users_email, species_name, latitude, longitude, img_name, notes ".
-        "FROM $table where id=$id";
+    $sql = "";
+    if($table == "data_mining"){
+        $sql = "SELECT date, time, users_email, species_name, latitude, longitude, img_name, notes, validated ".
+            "FROM $table where id=$id";
+    }
+    else{
+        $sql = "SELECT date, time, users_email, species_name, latitude, longitude, img_name, notes ".
+            "FROM $table where id=$id";
+    }
     $stmt = $dbconn->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -43,6 +50,10 @@ if (isset($_REQUEST['table']) && isset($_REQUEST['id'])) {
         $notes = $data['notes'];
         $date = $data['date'];
         $image = str_replace('"', "", $image);
+        $validated = true;
+        if(isset($data['validated'])){
+            $validated = $data['validated'];
+        }
     }
 }
 ?>
@@ -67,7 +78,7 @@ if (isset($_REQUEST['table']) && isset($_REQUEST['id'])) {
                     <p>Date: <span id="date"><?=$date?></span></p>
                 </div>
                 <?php
-                    if($table=='data_mining'){
+                    if($table=='data_mining' && !$validated){
                         echo "<form action='flickrForm.php?table=data_mining&id=$id' method='POST'> Is this a real shark (no shark in aquaria)? <br>
                             <label for='radio_data_mining_".$id."_yes'>Yes</label>
                             <input type='radio' name='radio_data_mining_".$id."' value='yes' id='radio_data_mining_".$id."_yes'>
